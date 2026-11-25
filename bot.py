@@ -167,8 +167,18 @@ def user_lang(user: dict[str, object], conn: sqlite3.Connection) -> str:
     return "tj" if code.startswith("tg") else "uz" if code.startswith("uz") else "ky" if code.startswith("ky") else "ru"
 
 def main_keyboard(lang: str) -> dict[str, object]:
-    rows = [[tr(lang,"trial")], [tr(lang,"buy"),tr(lang,"subscription")], [tr(lang,"help"),tr(lang,"promo")], [tr(lang,"invite"),tr(lang,"gift")], [tr(lang,"terms")], [tr(lang,"language")]]
-    return {"keyboard": [[{"text": label} for label in row] for row in rows], "resize_keyboard": True, "is_persistent": True}
+    # Inline buttons stay attached to the branded welcome card. Telegram supports
+    # success/primary styles for clear green purchase and blue subscription actions.
+    rows = [
+        [{"text":tr(lang,"trial"),"callback_data":"trial"}],
+        [{"text":tr(lang,"buy"),"callback_data":"plans","style":"success"},
+         {"text":tr(lang,"subscription"),"callback_data":"subscription","style":"primary"}],
+        [{"text":tr(lang,"help"),"callback_data":"help"},{"text":tr(lang,"promo"),"callback_data":"promo"}],
+        [{"text":tr(lang,"invite"),"callback_data":"invite"},{"text":tr(lang,"gift"),"callback_data":"gift"}],
+        [{"text":tr(lang,"terms"),"callback_data":"terms"}],
+        [{"text":tr(lang,"language"),"callback_data":"language"}],
+    ]
+    return inline(rows)
 
 def inline(rows: list[list[dict[str, object]]]) -> dict[str, object]:
     return {"inline_keyboard": rows}
@@ -263,6 +273,16 @@ def process_callback(query: dict[str, object], conn: sqlite3.Connection) -> None
         conn.execute("UPDATE users SET lang=? WHERE user_id=?", (lang,uid)); conn.commit()
         start_message(chat_id, lang); return
     if data == "home": start_message(chat_id, lang); return
+    if data == "subscription": show_subscription(chat_id,uid,lang); return
+    if data == "help":
+        send(chat_id,tr(lang,"help_text"),lang,inline([[{"text":tr(lang,"help_renew"),"callback_data":"help:renew"}],[{"text":tr(lang,"help_device"),"callback_data":"help:device"}],[{"text":tr(lang,"help_referral"),"callback_data":"help:referral"}],[{"text":tr(lang,"help_broken"),"callback_data":"help:broken"}],[{"text":tr(lang,"help_other"),"url":f"https://t.me/{SUPPORT_USERNAME}"}],[{"text":tr(lang,"language"),"callback_data":"language"}],[{"text":tr(lang,"back"),"callback_data":"home"}]]),photo=False)
+        return
+    if data == "invite": show_referral(chat_id,uid,lang); return
+    if data == "gift": show_plans(chat_id,lang,gift=True); return
+    if data == "terms":
+        if TERMS_URL: send(chat_id,TERMS_URL,lang,inline([[{"text":tr(lang,"terms"),"url":TERMS_URL}]]),photo=False)
+        else: send(chat_id,tr(lang,"terms_missing"),lang,photo=False)
+        return
     if data == "language": send(chat_id,tr(lang,"language_choose"),lang,terms_keyboard(lang),photo=False); return
     if data == "plans": show_plans(chat_id,lang); return
     if data == "trial":

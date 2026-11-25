@@ -12,7 +12,7 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
-BOT_TOKEN = os.environ.get("TEZ_BOT_TOKEN", "")
+BOT_TOKEN = os.environ.get("TEZ_BOT_TOKEN") or os.environ.get("BOT_TOKEN", "")
 BOT_USERNAME = os.environ.get("TEZ_BOT_USERNAME", "")
 API_BASE = os.environ.get("TEZ_BACKEND_URL", "").rstrip("/")
 API_SECRET = os.environ.get("TEZ_BACKEND_SECRET", "")

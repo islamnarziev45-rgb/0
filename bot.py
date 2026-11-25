@@ -381,7 +381,13 @@ def main() -> None:
                 elif "message" in update: process_message(update["message"],conn)
         except KeyboardInterrupt: break
         except Exception as exc:
-            print(f"Bot loop error ({type(exc).__name__}); retrying.")
+            if isinstance(exc, urllib.error.HTTPError):
+                detail = f"Telegram API HTTP {exc.code}: {exc.reason}"
+            elif isinstance(exc, urllib.error.URLError):
+                detail = f"Telegram network error: {exc.reason}"
+            else:
+                detail = f"Bot loop error ({type(exc).__name__}): {exc}"
+            print(f"{detail}; retrying.", flush=True)
             time.sleep(3)
     conn.close()
 

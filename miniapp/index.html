@@ -6,35 +6,34 @@
 <title>TEZ VPN — Telegram Mini App</title>
 <style>
   :root {
-    --bg-main: #061410;
-    --bg-card: #0c221b;
-    --bg-card-2: #102b22;
-    --bg-pill: #133329;
-    --text-main: #f3fbf8;
-    --text-muted: #8fb3a6;
-    --border-soft: rgba(74, 222, 166, 0.16);
-    --emerald: #10b981;
-    --emerald-deep: #059669;
-    --neon-lime: #d9ff26;
+    --bg-main: #06140f;
+    --bg-card: #0b1f18;
+    --bg-card-2: #0f2920;
+    --bg-pill: #133126;
+    --text-main: #eef7f3;
+    --text-muted: #7fa396;
+    --border-soft: rgba(52, 168, 120, 0.14);
+    --emerald: #16a36c;
+    --emerald-deep: #0e7c51;
+    --neon-lime: #d8ff24;
     --neon-lime-dark: #071408;
-    --danger: #f87171;
-    --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.35);
-    --radius-xl: 22px;
-    --radius-lg: 16px;
+    --shadow-card: 0 8px 22px rgba(0, 0, 0, 0.28);
+    --radius-xl: 20px;
+    --radius-lg: 15px;
     --radius-md: 12px;
   }
 
   body.theme-light {
-    --bg-main: #eef7f3;
-    --bg-card: #ffffff;
-    --bg-card-2: #f4fbf8;
-    --bg-pill: #e1f2eb;
-    --text-main: #082018;
-    --text-muted: #4b6e61;
-    --border-soft: rgba(16, 185, 129, 0.22);
-    --neon-lime: #b8e600;
+    --bg-main: #e9f3ee;
+    --bg-card: #f8fcfa;
+    --bg-card-2: #eff7f3;
+    --bg-pill: #dcece4;
+    --text-main: #0a2018;
+    --text-muted: #4b6b5f;
+    --border-soft: rgba(16, 130, 88, 0.18);
+    --neon-lime: #b5e000;
     --neon-lime-dark: #091808;
-    --shadow-card: 0 10px 24px rgba(8, 32, 24, 0.08);
+    --shadow-card: 0 6px 18px rgba(8, 32, 24, 0.06);
   }
 
   * {
@@ -46,29 +45,25 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
-    background: radial-gradient(circle at top, #0d2e23 0%, var(--bg-main) 62%);
+    background: var(--bg-main);
     color: var(--text-main);
     min-height: 100vh;
-    transition: background 0.35s ease, color 0.3s ease;
-    padding-bottom: 92px;
+    transition: background 0.25s ease, color 0.25s ease;
+    padding-bottom: 94px;
   }
 
-  body.theme-light {
-    background: radial-gradient(circle at top, #d4efe4 0%, var(--bg-main) 65%);
-  }
-
-  /* Splash Emblem Overlay */
+  /* Splash Emblem on Launch */
   #splash-screen {
     position: fixed;
     inset: 0;
     z-index: 999;
-    background: radial-gradient(circle at center, #0e3427 0%, #05110d 100%);
+    background: #06140f;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    transition: opacity 0.55s ease, visibility 0.55s ease;
+    gap: 12px;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
   }
 
   #splash-screen.hidden {
@@ -78,76 +73,38 @@
   }
 
   .splash-emblem {
-    width: 92px;
-    height: 92px;
-    border-radius: 28px;
-    background: linear-gradient(145deg, rgba(16, 185, 129, 0.25), rgba(217, 255, 38, 0.14));
-    border: 1.5px solid rgba(217, 255, 38, 0.5);
+    width: 84px;
+    height: 84px;
+    border-radius: 24px;
+    background: #0b1f18;
+    border: 1px solid rgba(52, 168, 120, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 42px rgba(16, 185, 129, 0.35);
-    animation: emblemEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards, emblemPulse 2.4s ease-in-out infinite 1.2s;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
   }
 
   .splash-emblem svg {
-    width: 52px;
-    height: 52px;
+    width: 50px;
+    height: 50px;
   }
 
   .splash-title {
-    font-size: 24px;
+    font-size: 21px;
     font-weight: 800;
-    letter-spacing: 0.6px;
-    color: #f3fbf8;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: textFadeUp 0.8s ease forwards 0.25s;
+    color: var(--text-main);
+    letter-spacing: 0.4px;
   }
 
   .splash-title span {
-    color: #d9ff26;
+    color: var(--neon-lime);
   }
 
-  .splash-sub {
-    font-size: 13px;
-    color: #8fb3a6;
-    opacity: 0;
-    animation: textFadeUp 0.8s ease forwards 0.45s;
-  }
-
-  @keyframes emblemEntrance {
-    0% {
-      opacity: 0;
-      transform: scale(0.72) rotate(-8deg);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) rotate(0deg);
-    }
-  }
-
-  @keyframes emblemPulse {
-    0%, 100% {
-      box-shadow: 0 0 28px rgba(16, 185, 129, 0.32), 0 0 0 0 rgba(217, 255, 38, 0.25);
-    }
-    50% {
-      box-shadow: 0 0 48px rgba(217, 255, 38, 0.35), 0 0 0 10px rgba(217, 255, 38, 0);
-    }
-  }
-
-  @keyframes textFadeUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* App container */
+  /* App Container */
   .app-shell {
-    max-width: 460px;
+    max-width: 440px;
     margin: 0 auto;
-    padding: 14px 14px 24px;
+    padding: 12px 14px 20px;
   }
 
   /* Top Header */
@@ -156,37 +113,45 @@
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
 
   .brand-box {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     cursor: pointer;
   }
 
-  .brand-badge {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #10b981, #047857);
+  .emblem-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: #0a1813;
+    border: 1px solid rgba(52, 168, 120, 0.22);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 900;
-    color: #fff;
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+    flex-shrink: 0;
+  }
+
+  .emblem-badge svg {
+    width: 22px;
+    height: 22px;
   }
 
   .brand-name {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   .brand-name span {
-    color: var(--emerald);
+    color: var(--neon-lime);
+  }
+
+  body.theme-light .brand-name span {
+    color: var(--emerald-deep);
   }
 
   .brand-tag {
@@ -204,8 +169,8 @@
     border: 1px solid var(--border-soft);
     background: var(--bg-card);
     color: var(--text-main);
-    border-radius: 12px;
-    height: 36px;
+    border-radius: 11px;
+    height: 34px;
     padding: 0 10px;
     font-size: 12px;
     font-weight: 600;
@@ -213,26 +178,15 @@
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    transition: transform 0.15s ease, background 0.2s ease;
   }
 
-  .icon-btn:active {
-    transform: scale(0.96);
-  }
-
-  .home-return-btn {
-    border-color: rgba(217, 255, 38, 0.45);
-    background: rgba(16, 185, 129, 0.14);
-  }
-
-  /* Language bar */
+  /* Language Strip */
   .lang-strip {
     display: flex;
     gap: 6px;
     overflow-x: auto;
     scrollbar-width: none;
-    margin-bottom: 14px;
-    padding-bottom: 2px;
+    margin-bottom: 10px;
   }
 
   .lang-strip::-webkit-scrollbar {
@@ -244,23 +198,21 @@
     border: 1px solid var(--border-soft);
     background: var(--bg-card);
     color: var(--text-muted);
-    border-radius: 12px;
-    padding: 7px 10px;
-    font-size: 12px;
+    border-radius: 11px;
+    padding: 6px 9px;
+    font-size: 11.5px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 4px;
     cursor: pointer;
-    transition: all 0.2s ease;
   }
 
   .lang-chip.active {
     background: var(--bg-pill);
     color: var(--text-main);
-    border-color: var(--emerald);
-    box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);
+    border-color: rgba(52, 168, 120, 0.45);
   }
 
   /* Cards */
@@ -268,132 +220,101 @@
     background: var(--bg-card);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-xl);
-    padding: 16px;
-    margin-bottom: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
     box-shadow: var(--shadow-card);
+  }
+
+  .welcome-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .welcome-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .welcome-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+
+  .chip-lime {
+    background: rgba(216, 255, 36, 0.12);
+    color: var(--neon-lime);
+    border: 1px solid rgba(216, 255, 36, 0.25);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 999px;
+  }
+
+  body.theme-light .chip-lime {
+    color: #065f46;
+    background: rgba(16, 163, 108, 0.12);
+    border-color: rgba(16, 163, 108, 0.25);
+  }
+
+  .chip-client {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .welcome-title {
+    font-size: 16px;
+    font-weight: 800;
   }
 
   .card-title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
     gap: 8px;
+    margin-bottom: 6px;
   }
 
-  .card-title {
-    font-size: 15px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .pill-tag {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 9px;
-    border-radius: 999px;
-    background: var(--bg-pill);
-    color: var(--emerald);
-  }
-
-  /* Device counter & slow pulse */
-  .connect-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg-card-2);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    gap: 10px;
-  }
-
-  .connect-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .status-dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #6b8f82;
-    transition: background 0.3s ease;
-  }
-
-  .status-dot.active {
-    background: var(--emerald);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.65);
-    animation: slowPulse 3.2s ease-in-out infinite;
-  }
-
-  @keyframes slowPulse {
-    0%, 100% {
-      transform: scale(1);
-      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55);
-    }
-    50% {
-      transform: scale(1.18);
-      box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
-    }
-  }
-
-  .connect-title {
-    font-size: 14px;
-    font-weight: 800;
-  }
-
-  .autokey-badge {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 6px 10px;
-    border-radius: 10px;
-    background: var(--bg-pill);
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-
-  /* Platform selector */
-  .platform-grid {
+  /* Trial 3-box row */
+  .trial-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 7px;
-    margin-bottom: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 11px 0;
   }
 
-  .platform-btn {
-    border: 1px solid var(--border-soft);
+  .trial-stat {
     background: var(--bg-card-2);
-    color: var(--text-muted);
+    border: 1px solid var(--border-soft);
     border-radius: 13px;
     padding: 9px 6px;
-    font-size: 12px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    text-align: center;
   }
 
-  .platform-btn.active {
-    border-color: var(--emerald);
-    background: rgba(16, 185, 129, 0.16);
+  .trial-stat-num {
+    font-size: 15px;
+    font-weight: 800;
     color: var(--text-main);
   }
 
-  /* Slow running border glow on CTA & Pay buttons */
+  .trial-stat-lbl {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Subtle slow running border glow on CTA & Pay buttons */
   .glow-runner-wrap {
     position: relative;
-    border-radius: 16px;
-    padding: 2px;
+    border-radius: 15px;
+    padding: 1.5px;
     overflow: hidden;
-    margin-top: 8px;
+    margin-top: 6px;
   }
 
   .glow-runner-wrap::before {
@@ -403,21 +324,17 @@
     background: conic-gradient(
       from 0deg,
       transparent 0deg,
-      transparent 250deg,
-      rgba(217, 255, 38, 0.95) 295deg,
-      rgba(16, 185, 129, 0.95) 330deg,
+      transparent 270deg,
+      rgba(216, 255, 36, 0.72) 310deg,
+      rgba(22, 163, 108, 0.65) 340deg,
       transparent 360deg
     );
-    animation: slowBorderSpin 7.5s linear infinite;
+    animation: slowBorderSpin 9s linear infinite;
   }
 
   @keyframes slowBorderSpin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   .btn-trial {
@@ -425,33 +342,10 @@
     z-index: 1;
     width: 100%;
     border: none;
-    border-radius: 14px;
-    padding: 14px 16px;
+    border-radius: 13.5px;
+    padding: 12px 14px;
     background: var(--neon-lime);
     color: var(--neon-lime-dark);
-    font-size: 15px;
-    font-weight: 900;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    transition: transform 0.15s ease;
-  }
-
-  .btn-trial:active {
-    transform: scale(0.985);
-  }
-
-  .btn-pay {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    padding: 13px 16px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: #ffffff;
     font-size: 14px;
     font-weight: 800;
     cursor: pointer;
@@ -459,66 +353,304 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    transition: transform 0.15s ease, filter 0.2s ease;
   }
 
-  .btn-pay:active {
-    transform: scale(0.985);
+  .btn-pay {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    border: none;
+    border-radius: 13.5px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #16a36c, #0e7c51);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* Device counter & slow pulse */
+  .connect-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 11px 13px;
+    margin-bottom: 10px;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+  }
+
+  .connect-left {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #5d7e72;
+  }
+
+  .status-dot.active {
+    background: var(--emerald);
+    animation: slowPulse 3.6s ease-in-out infinite;
+  }
+
+  @keyframes slowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.22); opacity: 1; }
+  }
+
+  .connect-title {
+    font-size: 13.5px;
+    font-weight: 800;
+  }
+
+  .autokey-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 10px;
+    background: var(--bg-pill);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* Menu Row Cards */
+  .menu-row-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-xl);
+    padding: 13px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: var(--shadow-card);
+  }
+
+  .menu-row-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 2px;
+  }
+
+  .badge-from {
+    background: var(--neon-lime);
+    color: var(--neon-lime-dark);
+    font-size: 10px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 7px;
+  }
+
+  .menu-row-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+
+  .menu-row-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mini-emblem-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: #0a1813;
+    border: 1px solid rgba(52, 168, 120, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mini-emblem-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .pill-btn {
+    border: 1px solid var(--border-soft);
+    background: var(--bg-pill);
+    color: var(--text-main);
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 10px;
+  }
+
+  /* Key & Clients */
+  .key-box {
+    background: var(--bg-card-2);
+    border: 1px dashed rgba(52, 168, 120, 0.35);
+    border-radius: var(--radius-lg);
+    padding: 11px;
+    margin-top: 10px;
+  }
+
+  .key-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    word-break: break-all;
+    background: rgba(0, 0, 0, 0.24);
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #9be8c7;
+    margin: 7px 0 9px;
+  }
+
+  body.theme-light .key-code {
+    background: rgba(16, 163, 108, 0.08);
+    color: #065f46;
+  }
+
+  .client-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .btn-green-action {
     border: none;
-    border-radius: 13px;
-    padding: 11px 14px;
-    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: linear-gradient(135deg, #16a36c, #0e7c51);
     color: #ffffff;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
   }
 
   .btn-secondary {
     border: 1px solid var(--border-soft);
-    border-radius: 13px;
-    padding: 10px 13px;
+    border-radius: 11px;
+    padding: 7px 10px;
     background: var(--bg-pill);
     color: var(--text-main);
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
   }
 
-  /* Metrics row */
+  /* Platform pills */
+  .platform-pill-bar {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--bg-card-2);
+    border: 1px solid var(--border-soft);
+    padding: 5px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+
+  .platform-pill-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .plat-pill {
+    flex: 1 0 auto;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 10px;
+    padding: 7px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .plat-pill.active {
+    background: var(--bg-pill);
+    color: var(--text-main);
+  }
+
+  /* Plans */
+  .plan-card {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    margin-bottom: 9px;
+  }
+
+  .plan-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .plan-name {
+    font-size: 14.5px;
+    font-weight: 800;
+  }
+
+  .plan-price {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--neon-lime);
+  }
+
+  body.theme-light .plan-price {
+    color: #0e7c51;
+  }
+
+  .plan-specs {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  /* Metrics & News & FAQ */
   .metrics-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 10px;
   }
 
   .metric-box {
     background: var(--bg-card-2);
     border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 12px;
+    border-radius: 14px;
+    padding: 11px;
   }
 
   .metric-label {
     font-size: 11px;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
   .metric-val {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 800;
   }
 
@@ -529,84 +661,11 @@
     font-weight: 600;
   }
 
-  /* Auto Key Box */
-  .key-box {
-    background: var(--bg-card-2);
-    border: 1px dashed rgba(16, 185, 129, 0.5);
-    border-radius: var(--radius-lg);
-    padding: 12px;
-    margin-top: 10px;
-  }
-
-  .key-code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 11.5px;
-    word-break: break-all;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 9px 10px;
-    border-radius: 10px;
-    color: #a7f3d0;
-    margin: 8px 0 10px;
-  }
-
-  body.theme-light .key-code {
-    background: rgba(16, 185, 129, 0.08);
-    color: #065f46;
-  }
-
-  .client-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
-  /* Plans */
-  .plan-card {
-    background: var(--bg-card-2);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 13px;
-    margin-bottom: 10px;
-  }
-
-  .plan-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 6px;
-  }
-
-  .plan-name {
-    font-size: 15px;
-    font-weight: 800;
-  }
-
-  .plan-price {
-    font-size: 17px;
-    font-weight: 900;
-    color: var(--neon-lime);
-  }
-
-  body.theme-light .plan-price {
-    color: #059669;
-  }
-
-  .plan-specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 11.5px;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-
-  /* Referral steps */
   .step-item {
     display: flex;
-    gap: 10px;
+    gap: 9px;
     align-items: flex-start;
-    padding: 9px 0;
+    padding: 8px 0;
     border-bottom: 1px solid var(--border-soft);
   }
 
@@ -615,12 +674,12 @@
   }
 
   .step-num {
-    width: 24px;
-    height: 24px;
-    border-radius: 8px;
-    background: rgba(16, 185, 129, 0.2);
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: rgba(22, 163, 108, 0.18);
     color: var(--emerald);
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -628,22 +687,21 @@
     flex-shrink: 0;
   }
 
-  /* News & FAQ */
   .news-item {
     background: var(--bg-card-2);
     border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    padding: 11px 12px;
-    margin-bottom: 8px;
+    border-radius: 13px;
+    padding: 10px 12px;
+    margin-bottom: 7px;
   }
 
   .news-head {
     display: flex;
     justify-content: space-between;
     gap: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
   .news-date {
@@ -653,21 +711,21 @@
   }
 
   .news-body {
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--text-muted);
-    line-height: 1.4;
+    line-height: 1.38;
   }
 
   details {
     background: var(--bg-card-2);
     border: 1px solid var(--border-soft);
-    border-radius: 14px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
+    border-radius: 13px;
+    padding: 9px 12px;
+    margin-bottom: 7px;
   }
 
   summary {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     cursor: pointer;
     list-style: none;
@@ -677,51 +735,93 @@
   }
 
   details p {
-    margin-top: 8px;
-    font-size: 12px;
+    margin-top: 7px;
+    font-size: 11.5px;
     color: var(--text-muted);
-    line-height: 1.45;
+    line-height: 1.42;
   }
 
-  /* Bottom Nav */
-  .bottom-nav {
+  /* Bottom Bar styled cleanly like reference @image 3 */
+  .bottom-nav-wrap {
     position: fixed;
-    bottom: 0;
+    bottom: 10px;
     left: 0;
     right: 0;
-    background: var(--bg-card);
-    border-top: 1px solid var(--border-soft);
     display: flex;
-    justify-content: space-around;
-    padding: 8px 10px 12px;
+    justify-content: center;
+    padding: 0 12px;
     z-index: 50;
+    pointer-events: none;
+  }
+
+  .bottom-nav {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 428px;
+    background: rgba(14, 18, 22, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+  }
+
+  body.theme-light .bottom-nav {
+    background: rgba(242, 248, 245, 0.95);
+    border: 1px solid rgba(10, 32, 24, 0.12);
+    box-shadow: 0 10px 24px rgba(8, 32, 24, 0.1);
   }
 
   .nav-btn {
+    flex: 1;
     border: none;
     background: transparent;
-    color: var(--text-muted);
+    color: #8a949e;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 3px;
     cursor: pointer;
-    padding: 4px 10px;
-    border-radius: 12px;
+    padding: 7px 6px;
+    border-radius: 20px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  body.theme-light .nav-btn {
+    color: #566e64;
+  }
+
+  .nav-btn svg {
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .nav-btn.active {
-    color: var(--emerald);
-    background: var(--bg-pill);
+    color: #f3f6f8;
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  body.theme-light .nav-btn.active {
+    color: #082018;
+    background: rgba(16, 163, 108, 0.14);
   }
 
   /* Modal */
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(0, 0, 0, 0.7);
     display: none;
     align-items: center;
     justify-content: center;
@@ -735,48 +835,47 @@
 
   .modal-card {
     width: 100%;
-    max-width: 420px;
+    max-width: 400px;
     background: var(--bg-card);
     border: 1px solid var(--border-soft);
-    border-radius: 22px;
-    padding: 18px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 16px;
   }
 
   .method-option {
     border: 1px solid var(--border-soft);
     background: var(--bg-card-2);
-    border-radius: 13px;
-    padding: 11px 12px;
-    margin-bottom: 8px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 7px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
   }
 
   .method-option.selected {
     border-color: var(--emerald);
-    background: rgba(16, 185, 129, 0.16);
+    background: rgba(22, 163, 108, 0.14);
   }
 
   .toast {
     position: fixed;
-    top: 16px;
+    top: 14px;
     left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    background: #0d2e23;
-    color: #fff;
-    border: 1px solid rgba(217, 255, 38, 0.45);
-    padding: 9px 14px;
-    border-radius: 12px;
-    font-size: 12.5px;
+    transform: translateX(-50%) translateY(-16px);
+    background: #0d261d;
+    color: #f3fbf8;
+    border: 1px solid rgba(52, 168, 120, 0.4);
+    padding: 8px 13px;
+    border-radius: 11px;
+    font-size: 12px;
     font-weight: 700;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.25s ease;
+    transition: all 0.22s ease;
     z-index: 500;
     white-space: nowrap;
   }
@@ -797,37 +896,42 @@
 </head>
 <body>
 
-<!-- Splash Emblem on Mini App Launch -->
+<!-- Splash Screen with User's Emblem -->
 <div id="splash-screen">
   <div class="splash-emblem">
-    <svg viewBox="0 0 64 64" fill="none">
-      <path d="M32 6L52 14V30C52 44.5 43.4 54.6 32 58C20.6 54.6 12 44.5 12 30V14L32 6Z" stroke="#D9FF26" stroke-width="3.2" fill="rgba(16,185,129,0.22)"/>
-      <path d="M35 17L22 34H32L29 47L42 30H32L35 17Z" fill="#D9FF26"/>
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="7" y="18" width="15" height="5.5" rx="2.75" fill="#185C45"/>
+      <rect x="5" y="29.25" width="18" height="5.5" rx="2.75" fill="#22C57E"/>
+      <rect x="8" y="40.5" width="14" height="5.5" rx="2.75" fill="#185C45"/>
+      <path d="M44 10L25 35H36L31 54L52 28H40L44 10Z" fill="#D9FF26" stroke="#D9FF26" stroke-width="1.5" stroke-linejoin="round"/>
     </svg>
   </div>
   <div class="splash-title">TEZ <span>VPN</span></div>
-  <div class="splash-sub" id="splash-sub-text">Быстрый доступ • VLESS Reality</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <div class="app-shell">
-  <!-- Top Bar -->
+  <!-- Top Header -->
   <header class="topbar">
     <div class="brand-box" onclick="goHome()">
-      <div class="brand-badge">⚡</div>
+      <div class="emblem-badge">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="18" width="15" height="5.5" rx="2.75" fill="#185C45"/>
+          <rect x="5" y="29.25" width="18" height="5.5" rx="2.75" fill="#22C57E"/>
+          <rect x="8" y="40.5" width="14" height="5.5" rx="2.75" fill="#185C45"/>
+          <path d="M44 10L25 35H36L31 54L52 28H40L44 10Z" fill="#D9FF26" stroke="#D9FF26" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div>
         <div class="brand-name">TEZ <span>VPN</span></div>
-        <div class="brand-tag" id="header-subtitle">Mini App • Безлимит до 2 устр.</div>
+        <div class="brand-tag">Безлимит • До 2 устройств</div>
       </div>
     </div>
 
     <div class="top-actions">
-      <button class="icon-btn home-return-btn" id="btn-home-top" onclick="goHome()" style="display:none;">
-        🏠 <span data-i18n="homeBtn">Главный</span>
-      </button>
       <button class="icon-btn" onclick="openSupport()">
-        💬 <span data-i18n="supportBtn">Поддержка</span>
+        🎧 <span data-i18n="supportBtn">Поддержка</span>
       </button>
       <button class="icon-btn" onclick="toggleTheme()" title="Theme">
         🌓
@@ -835,8 +939,8 @@
     </div>
   </header>
 
-  <!-- Language Switcher with Flags -->
-  <div class="lang-strip" id="lang-strip">
+  <!-- Language Switcher -->
+  <div class="lang-strip">
     <button class="lang-chip active" data-lang="ru" onclick="setLang('ru')">🇷🇺 RU</button>
     <button class="lang-chip" data-lang="uz" onclick="setLang('uz')">🇺🇿 UZ</button>
     <button class="lang-chip" data-lang="tj" onclick="setLang('tj')">🇹🇯 TJ</button>
@@ -846,71 +950,67 @@
 
   <!-- PAGE 1: HOME -->
   <section class="page active" id="page-home">
+    <!-- Welcome Card with Emblem -->
     <div class="card">
-      <div class="card-title-row">
-        <div class="card-title">⚡ <span data-i18n="accessTitle">Доступ и автоключ</span></div>
-        <span class="pill-tag" id="status-pill">Ожидает активации</span>
-      </div>
-
-      <!-- Connect status & 0/2 devices -->
-      <div class="connect-bar">
-        <div class="connect-left">
-          <div class="status-dot" id="device-dot"></div>
+      <div class="welcome-banner">
+        <div class="welcome-left">
+          <div class="emblem-badge">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="7" y="18" width="15" height="5.5" rx="2.75" fill="#185C45"/>
+              <rect x="5" y="29.25" width="18" height="5.5" rx="2.75" fill="#22C57E"/>
+              <rect x="8" y="40.5" width="14" height="5.5" rx="2.75" fill="#185C45"/>
+              <path d="M44 10L25 35H36L31 54L52 28H40L44 10Z" fill="#D9FF26" stroke="#D9FF26" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <div>
-            <div class="connect-title" id="connect-counter-text">Подключить (0/2)</div>
-            <div style="font-size:11px; color:var(--text-muted);" id="selected-platform-label">Устройство: Android</div>
+            <div class="welcome-chips">
+              <span class="chip-lime">TEZ VPN</span>
+              <span class="chip-client">Happ • Incy</span>
+            </div>
+            <div class="welcome-title" data-i18n="welcomeTitle">Добро пожаловать!</div>
           </div>
         </div>
-        <div class="autokey-badge" id="autokey-badge">Автоключ после входа</div>
+        <span class="autokey-badge" style="color:var(--emerald);">Безлимит</span>
       </div>
+    </div>
 
-      <!-- Platform selection -->
-      <div class="platform-grid">
-        <button class="platform-btn active" data-plat="Android" onclick="selectPlatform('Android', this)">
-          <span>🤖</span><span>Android</span>
-        </button>
-        <button class="platform-btn" data-plat="iOS" onclick="selectPlatform('iOS', this)">
-          <span>📱</span><span>iOS</span>
-        </button>
-        <button class="platform-btn" data-plat="macOS" onclick="selectPlatform('macOS', this)">
-          <span>💻</span><span>macOS</span>
-        </button>
-        <button class="platform-btn" data-plat="Windows" onclick="selectPlatform('Windows', this)">
-          <span>🪟</span><span>Windows</span>
-        </button>
+    <!-- Trial Card -->
+    <div class="card">
+      <div class="card-title-row">
+        <span class="chip-lime">⚡ <span data-i18n="instantStart">Мгновенный старт</span></span>
+        <span class="autokey-badge" id="sub-status-tag">Бесплатный старт</span>
       </div>
+      <div style="font-size:15.5px; font-weight:800; margin-bottom:3px;" data-i18n="trialTitle">Бесплатный пробный период</div>
+      <div style="font-size:12px; color:var(--text-muted);" data-i18n="trialDesc">Попробуйте TEZ VPN на высокой скорости без привязки карты</div>
 
-      <!-- Metrics -->
-      <div class="metrics-grid">
-        <div class="metric-box">
-          <div class="metric-label" data-i18n="subStatusLabel">Статус подписки</div>
-          <div class="metric-val" id="sub-days-val">Бесплатный старт</div>
-          <div class="metric-sub" id="sub-limit-sub">До 2 устройств</div>
+      <div class="trial-grid">
+        <div class="trial-stat">
+          <div class="trial-stat-num">2</div>
+          <div class="trial-stat-lbl">дня</div>
         </div>
-        <div class="metric-box">
-          <div class="metric-label" data-i18n="trafficLabel">Трафик</div>
-          <div class="metric-val" id="traffic-val">Безлимит</div>
-          <div class="metric-sub">VLESS Reality</div>
+        <div class="trial-stat">
+          <div class="trial-stat-num" style="font-size:13.5px;">Безлимит</div>
+          <div class="trial-stat-lbl">трафика</div>
+        </div>
+        <div class="trial-stat">
+          <div class="trial-stat-num">2</div>
+          <div class="trial-stat-lbl">устройств</div>
         </div>
       </div>
 
-      <!-- Slow running border glow on trial button -->
       <div class="glow-runner-wrap">
         <button class="btn-trial" onclick="activateFreeAndKey()">
           ⚡ <span data-i18n="activateFreeBtn">Активировать бесплатно</span>
         </button>
       </div>
 
-      <!-- Auto-issued Key & Happ / Incy import -->
-      <div class="key-box" id="key-panel">
+      <!-- Auto Key & Happ / Incy -->
+      <div class="key-box">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-          <strong style="font-size:13px;">🔑 <span data-i18n="yourKeyTitle">Ваш ключ доступа</span></strong>
+          <strong style="font-size:12px;">🔑 <span data-i18n="yourKeyTitle">Ваш ключ доступа</span></strong>
           <button class="btn-secondary" onclick="copyKey()">📋 <span data-i18n="copyBtn">Копировать</span></button>
         </div>
         <div class="key-code" id="key-string">vless://tez-auto-demo@reality.tez-vpn.io:443?security=reality&sni=www.cloudflare.com&fp=chrome#TEZ_VPN_AUTO</div>
-        <div style="font-size:11.5px; color:var(--text-muted);" id="client-hint">
-          Нет приложения? Откройте или установите клиент <b>Happ</b> или <b>Incy</b> для автоимпорта ключа:
-        </div>
         <div class="client-row">
           <button class="btn-green-action" onclick="importToClient('Happ')">🚀 <span data-i18n="importHapp">Импорт в Happ</span></button>
           <button class="btn-green-action" onclick="importToClient('Incy')">📥 <span data-i18n="importIncy">Импорт в Incy</span></button>
@@ -918,94 +1018,156 @@
       </div>
     </div>
 
-    <!-- News block -->
+    <!-- Connect (0/2) Bar -->
+    <div class="connect-bar" onclick="switchPage('page-install')">
+      <div class="connect-left">
+        <div class="status-dot" id="device-dot"></div>
+        <div class="connect-title" id="connect-counter-text">Подключить (0/2)</div>
+      </div>
+      <div class="autokey-badge" id="autokey-badge">Автоключ после входа</div>
+    </div>
+
+    <!-- Tariffs Row Card with Emblem -->
+    <div class="menu-row-card" onclick="switchPage('page-plans')">
+      <div>
+        <div class="menu-row-title">
+          <span data-i18n="plansRowTitle">Тарифы</span>
+          <span class="badge-from">от 80 ₽</span>
+        </div>
+        <div class="menu-row-sub">1, 3 или 6 месяцев • Безлимит • До 2 устройств</div>
+      </div>
+      <div class="menu-row-right">
+        <div class="mini-emblem-btn">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="7" y="18" width="15" height="5.5" rx="2.75" fill="#185C45"/>
+            <rect x="5" y="29.25" width="18" height="5.5" rx="2.75" fill="#22C57E"/>
+            <rect x="8" y="40.5" width="14" height="5.5" rx="2.75" fill="#185C45"/>
+            <path d="M44 10L25 35H36L31 54L52 28H40L44 10Z" fill="#D9FF26" stroke="#D9FF26" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span style="color:var(--text-muted); font-size:17px;">›</span>
+      </div>
+    </div>
+
+    <!-- Referrals Row Card -->
+    <div class="menu-row-card" onclick="switchPage('page-ref')">
+      <div>
+        <div class="menu-row-title">
+          <span>🎁 <span data-i18n="refRowTitle">Рефералы</span></span>
+          <strong id="home-ref-num">0</strong>
+        </div>
+        <div class="menu-row-sub" id="home-ref-sub">Приглашено друзей: 0</div>
+      </div>
+      <span class="pill-btn" data-i18n="detailsBtn">Подробнее</span>
+    </div>
+
+    <!-- News & FAQ -->
     <div class="card">
       <div class="card-title-row">
-        <div class="card-title">📰 <span data-i18n="newsTitle">Последние новости</span></div>
-        <span class="pill-tag">TEZ</span>
+        <div style="font-size:14px; font-weight:800;">📰 <span data-i18n="newsTitle">Последние новости</span></div>
+        <span class="chip-lime">TEZ</span>
       </div>
       <div class="news-item">
         <div class="news-head">
           <span>Автоимпорт ключа в Happ и Incy</span>
           <span class="news-date">26.11</span>
         </div>
-        <div class="news-body">Ключ формируется автоматически сразу после входа или оплаты тарифа — в один клик в клиент.</div>
+        <div class="news-body">Ключ выдаётся автоматически после активации или оплаты — импорт в один клик.</div>
       </div>
       <div class="news-item">
         <div class="news-head">
-          <span>Лимит до 2 устройств и безлимит</span>
+          <span>Безлимит и до 2 устройств на тарифах</span>
           <span class="news-date">20.11</span>
         </div>
-        <div class="news-body">Подключайте смартфон и ноутбук на всех тарифах без ограничений по трафику.</div>
+        <div class="news-body">Тарифы 1, 3 и 6 месяцев (80 ₽ / 190 ₽ / 490 ₽) через Platega.io.</div>
       </div>
-    </div>
 
-    <!-- Quick FAQ -->
-    <div class="card">
-      <div class="card-title" style="margin-bottom:10px;">❓ <span data-i18n="faqTitle">Быстрая помощь</span></div>
+      <div style="font-size:14px; font-weight:800; margin:11px 0 7px;">❓ <span data-i18n="faqTitle">Быстрая помощь</span></div>
       <details>
-        <summary>Как работает автовыдача ключа и где взять Happ / Incy?</summary>
-        <p>При бесплатном входе или оплате ключ появляется сразу на экране. Нажмите «Импорт в Happ» или «Импорт в Incy» — если клиент не установлен, откроется страница установки.</p>
+        <summary>Как подключить устройство (0/2) через Happ и Incy?</summary>
+        <p>Активируйте доступ или оплатите тариф, затем нажмите «Импорт в Happ» или «Импорт в Incy».</p>
       </details>
       <details>
-        <summary>Сколько устройств можно подключить (0/2)?</summary>
-        <p>На тарифах доступно подключение до 2 устройств одновременно. Следить за слотами можно прямо в блоке «Подключить (0/2)».</p>
-      </details>
-      <details>
-        <summary>Как оплатить через Platega.io?</summary>
-        <p>Выберите тариф на 1, 3 или 6 месяцев и способ оплаты: СБП, оплата по QR-коду или карта МИР.</p>
+        <summary>Какие способы оплаты доступны в Platega.io?</summary>
+        <p>Доступны СБП, оплата по QR-коду и карта МИР.</p>
       </details>
     </div>
   </section>
 
-  <!-- PAGE 2: TARIFFS -->
+  <!-- PAGE 2: INSTALL -->
+  <section class="page" id="page-install">
+    <div class="card">
+      <div class="card-title-row">
+        <div style="font-size:14.5px; font-weight:800;">📲 <span data-i18n="installTitle">Установка и устройства</span></div>
+        <span class="autokey-badge" id="install-counter-pill">0/2 устр.</span>
+      </div>
+
+      <div class="platform-pill-bar">
+        <button class="plat-pill active" data-plat="iOS" onclick="selectPlatform('iOS', this)"> iOS</button>
+        <button class="plat-pill" data-plat="Android" onclick="selectPlatform('Android', this)">🤖 Android</button>
+        <button class="plat-pill" data-plat="Windows" onclick="selectPlatform('Windows', this)">🪟 Windows</button>
+        <button class="plat-pill" data-plat="macOS" onclick="selectPlatform('macOS', this)">💻 macOS</button>
+      </div>
+
+      <div style="font-size:14.5px; font-weight:800; margin-bottom:3px;" id="plat-selected-heading">Android</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
+        Ключ готов к импорту в Happ или Incy.
+      </div>
+
+      <div class="key-code" id="install-key-code">vless://tez-auto-demo@reality.tez-vpn.io:443?security=reality&sni=www.cloudflare.com&fp=chrome#TEZ_VPN_AUTO</div>
+
+      <div class="client-row">
+        <button class="btn-green-action" onclick="importToClient('Happ')">🚀 Импорт в Happ</button>
+        <button class="btn-green-action" onclick="importToClient('Incy')">📥 Импорт в Incy</button>
+      </div>
+
+      <div style="margin-top:9px;">
+        <button class="btn-secondary" style="width:100%;" onclick="toggleDeviceSlot()">
+          📱 <span id="toggle-slot-label">Переключить слот устройства (0/2)</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE 3: PLANS -->
   <section class="page" id="page-plans">
     <div class="card">
       <div class="card-title-row">
-        <div class="card-title">💎 <span data-i18n="plansTitle">Тарифы TEZ VPN</span></div>
-        <span class="pill-tag">Platega.io</span>
+        <div style="font-size:14.5px; font-weight:800;">💎 <span data-i18n="plansRowTitle">Тарифы</span></div>
+        <span class="chip-lime">Platega.io</span>
       </div>
-      <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">
-        Безлимитный трафик и до 2 устройств на каждом тарифе. После оплаты ключ выдаётся автоматически.
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+        Безлимитный трафик • До 2 устройств • Автовыдача ключа
       </p>
 
-      <!-- 1 month -->
       <div class="plan-card">
         <div class="plan-top">
           <div class="plan-name">1 месяц</div>
           <div class="plan-price">80 ₽</div>
         </div>
-        <div class="plan-specs">
-          <span>♾️ Безлимит</span> • <span>📱 До 2 устройств</span> • <span>⚡ Автоключ</span>
-        </div>
+        <div class="plan-specs">♾️ Безлимит • 📱 До 2 устройств • ⚡ Автоключ</div>
         <div class="glow-runner-wrap">
           <button class="btn-pay" onclick="openPayModal('1 месяц', 80)">Оплатить 80 ₽ →</button>
         </div>
       </div>
 
-      <!-- 3 months -->
       <div class="plan-card">
         <div class="plan-top">
           <div class="plan-name">3 месяца</div>
           <div class="plan-price">190 ₽</div>
         </div>
-        <div class="plan-specs">
-          <span>♾️ Безлимит</span> • <span>📱 До 2 устройств</span> • <span>⚡ Автоключ</span>
-        </div>
+        <div class="plan-specs">♾️ Безлимит • 📱 До 2 устройств • ⚡ Автоключ</div>
         <div class="glow-runner-wrap">
           <button class="btn-pay" onclick="openPayModal('3 месяца', 190)">Оплатить 190 ₽ →</button>
         </div>
       </div>
 
-      <!-- 6 months -->
       <div class="plan-card">
         <div class="plan-top">
           <div class="plan-name">6 месяцев</div>
           <div class="plan-price">490 ₽</div>
         </div>
-        <div class="plan-specs">
-          <span>♾️ Безлимит</span> • <span>📱 До 2 устройств</span> • <span>⚡ Автоключ</span>
-        </div>
+        <div class="plan-specs">♾️ Безлимит • 📱 До 2 устройств • ⚡ Автоключ</div>
         <div class="glow-runner-wrap">
           <button class="btn-pay" onclick="openPayModal('6 месяцев', 490)">Оплатить 490 ₽ →</button>
         </div>
@@ -1013,53 +1175,51 @@
     </div>
   </section>
 
-  <!-- PAGE 3: REFERRAL -->
+  <!-- PAGE 4: REFERRAL -->
   <section class="page" id="page-ref">
     <div class="card">
       <div class="card-title-row">
-        <div class="card-title">🎁 <span data-i18n="refTitle">Реферальная программа</span></div>
-        <span class="pill-tag" id="ref-count-pill">Приглашённые друзья (0)</span>
+        <div style="font-size:14.5px; font-weight:800;">🎁 <span data-i18n="navRef">Рефералка</span></div>
+        <span class="chip-lime" id="ref-pill-counter">Приглашённые друзья (0)</span>
       </div>
 
       <div class="metrics-grid">
         <div class="metric-box">
           <div class="metric-label">Приглашённые друзья</div>
-          <div class="metric-val" id="ref-count-val">0</div>
-          <div class="metric-sub">Активных рефералов</div>
+          <div class="metric-val" id="ref-page-num">0</div>
+          <div class="metric-sub">Счётчик рефералов</div>
         </div>
         <div class="metric-box">
-          <div class="metric-label">Ваш статус</div>
-          <div class="metric-val">TEZ Partner</div>
-          <div class="metric-sub">До 2 устр. / Безлимит</div>
+          <div class="metric-label">Устройства</div>
+          <div class="metric-val" id="ref-dev-num">0 / 2</div>
+          <div class="metric-sub">Безлимит</div>
         </div>
       </div>
 
-      <div style="margin-bottom:12px;">
-        <div class="step-item">
-          <div class="step-num">1</div>
-          <div>
-            <div style="font-size:13px; font-weight:700;">Поделитесь ссылкой</div>
-            <div style="font-size:12px; color:var(--text-muted);">Отправьте другу персональную ссылку на TEZ VPN Mini App.</div>
-          </div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div>
+          <div style="font-size:12.5px; font-weight:700;">Отправьте ссылку другу</div>
+          <div style="font-size:11.5px; color:var(--text-muted);">Поделитесь ссылкой на TEZ VPN.</div>
         </div>
-        <div class="step-item">
-          <div class="step-num">2</div>
-          <div>
-            <div style="font-size:13px; font-weight:700;">Друг заходит и получает ключ</div>
-            <div style="font-size:12px; color:var(--text-muted);">Активирует доступ или оформляет тариф через Platega.io.</div>
-          </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div>
+          <div style="font-size:12.5px; font-weight:700;">Друг активирует доступ или тариф</div>
+          <div style="font-size:11.5px; color:var(--text-muted);">Ключ выдаётся автоматически.</div>
         </div>
-        <div class="step-item">
-          <div class="step-num">3</div>
-          <div>
-            <div style="font-size:13px; font-weight:700;">Счётчик обновляется автоматически</div>
-            <div style="font-size:12px; color:var(--text-muted);">Следите за количеством приглашённых друзей в реальном времени.</div>
-          </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div>
+          <div style="font-size:12.5px; font-weight:700;">Счётчик обновляется</div>
+          <div style="font-size:11.5px; color:var(--text-muted);">Число приглашённых друзей растёт в профиле.</div>
         </div>
       </div>
 
       <div class="key-code" id="ref-link-text">https://t.me/tez_vpn_bot?start=ref_tez_user</div>
-      <div style="display:flex; gap:8px; margin-top:8px;">
+      <div style="display:flex; gap:8px;">
         <button class="btn-green-action" style="flex:1;" onclick="shareRef()">📤 Поделиться</button>
         <button class="btn-secondary" onclick="copyRef()">📋 Копировать</button>
         <button class="btn-secondary" onclick="simulateFriend()">+1 друг</button>
@@ -1067,63 +1227,67 @@
     </div>
   </section>
 
-  <!-- PAGE 4: PROFILE -->
+  <!-- PAGE 5: PROFILE -->
   <section class="page" id="page-profile">
     <div class="card">
       <div class="card-title-row">
-        <div class="card-title">👤 <span data-i18n="profileTitle">Профиль и устройства</span></div>
-        <span class="pill-tag" id="profile-devices-pill">0/2 устр.</span>
+        <div style="font-size:14.5px; font-weight:800;">👤 <span data-i18n="navProfile">Профиль</span></div>
+        <span class="chip-lime" id="profile-dev-pill">0/2 устр.</span>
       </div>
-
       <div class="metrics-grid">
         <div class="metric-box">
-          <div class="metric-label">Telegram ID</div>
-          <div class="metric-val" style="font-size:15px;">884210945</div>
-          <div class="metric-sub">@tez_member</div>
+          <div class="metric-label">Статус</div>
+          <div class="metric-val" style="font-size:14.5px;" id="profile-plan-val">Бесплатный старт</div>
+          <div class="metric-sub">Безлимит</div>
         </div>
         <div class="metric-box">
-          <div class="metric-label">Подключено устройств</div>
-          <div class="metric-val" id="profile-dev-num">0 / 2</div>
-          <div class="metric-sub">Максимум 2 слота</div>
+          <div class="metric-label">Слоты устройств</div>
+          <div class="metric-val" id="profile-dev-val">0 / 2</div>
+          <div class="metric-sub">Максимум 2</div>
         </div>
       </div>
-
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-green-action" onclick="toggleDeviceSlot()">📱 <span data-i18n="toggleSlotBtn">Добавить / освободить слот (0/2)</span></button>
-        <button class="btn-secondary" onclick="activateFreeAndKey()">🔑 <span data-i18n="regenKeyBtn">Обновить автоключ</span></button>
+        <button class="btn-green-action" onclick="toggleDeviceSlot()">📱 Переключить слот (0/2)</button>
+        <button class="btn-secondary" onclick="switchPage('page-plans')">💎 Тарифы</button>
       </div>
     </div>
   </section>
 </div>
 
-<!-- Bottom Navigation -->
-<nav class="bottom-nav">
-  <button class="nav-btn active" data-page="page-home" onclick="switchPage('page-home', this)">
-    <span>🏠</span><span data-i18n="navHome">Главная</span>
-  </button>
-  <button class="nav-btn" data-page="page-plans" onclick="switchPage('page-plans', this)">
-    <span>💎</span><span data-i18n="navPlans">Тарифы</span>
-  </button>
-  <button class="nav-btn" data-page="page-ref" onclick="switchPage('page-ref', this)">
-    <span>🎁</span><span data-i18n="navRef">Рефералка</span>
-  </button>
-  <button class="nav-btn" data-page="page-profile" onclick="switchPage('page-profile', this)">
-    <span>👤</span><span data-i18n="navProfile">Профиль</span>
-  </button>
-</nav>
+<!-- Bottom Navigation matching @image 3 -->
+<div class="bottom-nav-wrap">
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="page-home" onclick="switchPage('page-home', this)">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+      <span data-i18n="navHome">Главная</span>
+    </button>
+    <button class="nav-btn" data-page="page-install" onclick="switchPage('page-install', this)">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+      <span data-i18n="navInstall">Установить</span>
+    </button>
+    <button class="nav-btn" data-page="page-ref" onclick="switchPage('page-ref', this)">
+      <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      <span data-i18n="navRef">Рефералка</span>
+    </button>
+    <button class="nav-btn" data-page="page-profile" onclick="switchPage('page-profile', this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+      <span data-i18n="navProfile">Профиль</span>
+    </button>
+  </nav>
+</div>
 
 <!-- Payment Modal (Platega.io: SBP, QR code, MIR card) -->
 <div class="modal-backdrop" id="pay-modal">
   <div class="modal-card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
       <div>
-        <div style="font-size:16px; font-weight:800;">Оплата • Platega.io</div>
+        <div style="font-size:15px; font-weight:800;">Оплата • Platega.io</div>
         <div style="font-size:12px; color:var(--text-muted);" id="pay-modal-plan">1 месяц — 80 ₽</div>
       </div>
       <button class="icon-btn" onclick="closePayModal()">✕</button>
     </div>
 
-    <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Выберите способ оплаты:</div>
+    <div style="font-size:12px; color:var(--text-muted); margin-bottom:7px;">Выберите способ оплаты:</div>
 
     <div class="method-option selected" data-method="СБП" onclick="selectMethod(this)">
       <span>⚡ СБП (Система быстрых платежей)</span>
@@ -1138,7 +1302,7 @@
       <span></span>
     </div>
 
-    <div style="font-size:11.5px; color:var(--text-muted); margin:10px 0 6px;">
+    <div style="font-size:11px; color:var(--text-muted); margin:8px 0 4px;">
       Безлимит • До 2 устройств • Автовыдача ключа после оплаты
     </div>
 
@@ -1164,135 +1328,141 @@
 
   const i18n = {
     ru: {
-      homeBtn: 'Главный',
       supportBtn: 'Поддержка',
-      accessTitle: 'Доступ и автоключ',
-      subStatusLabel: 'Статус подписки',
-      trafficLabel: 'Трафик',
+      welcomeTitle: 'Добро пожаловать!',
+      instantStart: 'Мгновенный старт',
+      trialTitle: 'Бесплатный пробный период',
+      trialDesc: 'Попробуйте TEZ VPN на высокой скорости без привязки карты',
       activateFreeBtn: 'Активировать бесплатно',
       yourKeyTitle: 'Ваш ключ доступа',
       copyBtn: 'Копировать',
       importHapp: 'Импорт в Happ',
       importIncy: 'Импорт в Incy',
+      plansRowTitle: 'Тарифы',
+      refRowTitle: 'Рефералы',
+      detailsBtn: 'Подробнее',
       newsTitle: 'Последние новости',
       faqTitle: 'Быстрая помощь',
-      plansTitle: 'Тарифы TEZ VPN',
-      refTitle: 'Реферальная программа',
-      profileTitle: 'Профиль и устройства',
-      toggleSlotBtn: 'Добавить / освободить слот (0/2)',
-      regenKeyBtn: 'Обновить автоключ',
+      installTitle: 'Установка и устройства',
       navHome: 'Главная',
-      navPlans: 'Тарифы',
+      navInstall: 'Установить',
       navRef: 'Рефералка',
       navProfile: 'Профиль'
     },
     uz: {
-      homeBtn: 'Asosiy',
       supportBtn: 'Yordam',
-      accessTitle: 'Kirish va avto-kalit',
-      subStatusLabel: 'Obuna holati',
-      trafficLabel: 'Trafik',
+      welcomeTitle: 'Xush kelibsiz!',
+      instantStart: 'Tezkor boshlash',
+      trialTitle: 'Bepul sinov davri',
+      trialDesc: 'TEZ VPN’ni karta ulamasdan yuqori tezlikda sinab ko‘ring',
       activateFreeBtn: 'Bepul faollashtirish',
       yourKeyTitle: 'Sizning kalitingiz',
       copyBtn: 'Nusxalash',
       importHapp: 'Happ’ga import',
       importIncy: 'Incy’ga import',
+      plansRowTitle: 'Tariflar',
+      refRowTitle: 'Referallar',
+      detailsBtn: 'Batafsil',
       newsTitle: 'So‘nggi yangiliklar',
       faqTitle: 'Tezkor yordam',
-      plansTitle: 'TEZ VPN tariflari',
-      refTitle: 'Referal dasturi',
-      profileTitle: 'Profil va qurilmalar',
-      toggleSlotBtn: 'Slotni o‘zgartirish (0/2)',
-      regenKeyBtn: 'Kalitni yangilash',
+      installTitle: 'O‘rnatish va qurilmalar',
       navHome: 'Asosiy',
-      navPlans: 'Tariflar',
-      navRef: 'Referal',
+      navInstall: 'O‘rnatish',
+      navRef: 'Referalka',
       navProfile: 'Profil'
     },
     tj: {
-      homeBtn: 'Асосӣ',
       supportBtn: 'Дастгирӣ',
-      accessTitle: 'Дастрасӣ ва автокалид',
-      subStatusLabel: 'Ҳолати обуна',
-      trafficLabel: 'Трафик',
+      welcomeTitle: 'Хуш омадед!',
+      instantStart: 'Оғози фаврӣ',
+      trialTitle: 'Давраи санҷишии ройгон',
+      trialDesc: 'TEZ VPN-ро бе пайваст кардани корт санҷед',
       activateFreeBtn: 'Ройгон фаъол кардан',
       yourKeyTitle: 'Калиди шумо',
       copyBtn: 'Нусхабардорӣ',
       importHapp: 'Ворид ба Happ',
       importIncy: 'Ворид ба Incy',
+      plansRowTitle: 'Тарофаҳо',
+      refRowTitle: 'Рефералҳо',
+      detailsBtn: 'Муфассал',
       newsTitle: 'Хабарҳои охирин',
       faqTitle: 'Кӯмаки зуд',
-      plansTitle: 'Тарофаҳои TEZ VPN',
-      refTitle: 'Барномаи рефералӣ',
-      profileTitle: 'Профил ва дастгоҳҳо',
-      toggleSlotBtn: 'Иваз кардани слот (0/2)',
-      regenKeyBtn: 'Нав кардани калид',
+      installTitle: 'Насб ва дастгоҳҳо',
       navHome: 'Асосӣ',
-      navPlans: 'Тарофаҳо',
-      navRef: 'Рефералӣ',
+      navInstall: 'Насб',
+      navRef: 'Рефералка',
       navProfile: 'Профил'
     },
     kz: {
-      homeBtn: 'Басты',
       supportBtn: 'Қолдау',
-      accessTitle: 'Қолжетім және автокілт',
-      subStatusLabel: 'Жазылым күйі',
-      trafficLabel: 'Трафик',
+      welcomeTitle: 'Қош келдіңіз!',
+      instantStart: 'Лездік бастау',
+      trialTitle: 'Тегін сынақ кезеңі',
+      trialDesc: 'Карта байланыстырмай TEZ VPN-ді жоғары жылдамдықта сынап көріңіз',
       activateFreeBtn: 'Тегін іске қосу',
       yourKeyTitle: 'Сіздің кілтіңіз',
       copyBtn: 'Көшіру',
       importHapp: 'Happ-қа импорт',
       importIncy: 'Incy-ге импорт',
+      plansRowTitle: 'Тарифтер',
+      refRowTitle: 'Рефералдар',
+      detailsBtn: 'Толығырақ',
       newsTitle: 'Соңғы жаңалықтар',
       faqTitle: 'Жылдам көмек',
-      plansTitle: 'TEZ VPN тарифтері',
-      refTitle: 'Рефералдық бағдарлама',
-      profileTitle: 'Профиль және құрылғылар',
-      toggleSlotBtn: 'Слотты ауыстыру (0/2)',
-      regenKeyBtn: 'Кілтті жаңарту',
+      installTitle: 'Орнату және құрылғылар',
       navHome: 'Басты',
-      navPlans: 'Тарифтер',
-      navRef: 'Реферал',
+      navInstall: 'Орнату',
+      navRef: 'Рефералка',
       navProfile: 'Профиль'
     },
     kg: {
-      homeBtn: 'Башкы',
       supportBtn: 'Колдоо',
-      accessTitle: 'Кирүү жана автоачкыч',
-      subStatusLabel: 'Жазылуу абалы',
-      trafficLabel: 'Трафик',
+      welcomeTitle: 'Кош келиңиз!',
+      instantStart: 'Ыкчам баштоо',
+      trialTitle: 'Акысыз сыноо мөөнөтү',
+      trialDesc: 'Карта байлабастан TEZ VPN’ди жогорку ылдамдыкта сынап көрүңүз',
       activateFreeBtn: 'Акысыз иштетүү',
       yourKeyTitle: 'Сиздин ачкычыңыз',
       copyBtn: 'Көчүрүү',
       importHapp: 'Happ’ка импорт',
       importIncy: 'Incy’ге импорт',
+      plansRowTitle: 'Тарифтер',
+      refRowTitle: 'Рефералдар',
+      detailsBtn: 'Кененирээк',
       newsTitle: 'Акыркы жаңылыктар',
       faqTitle: 'Ыкчам жардам',
-      plansTitle: 'TEZ VPN тарифтери',
-      refTitle: 'Рефералдык программа',
-      profileTitle: 'Профиль жана түзмөктөр',
-      toggleSlotBtn: 'Слотту алмаштыруу (0/2)',
-      regenKeyBtn: 'Ачкычты жаңыртуу',
+      installTitle: 'Орнотуу жана түзмөктөр',
       navHome: 'Башкы',
-      navPlans: 'Тарифтер',
-      navRef: 'Реферал',
+      navInstall: 'Орнотуу',
+      navRef: 'Рефералка',
       navProfile: 'Профиль'
     }
   };
 
+  function hideSplashNow() {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      splash.classList.add('hidden');
+      splash.style.opacity = '0';
+      splash.style.visibility = 'hidden';
+      splash.style.pointerEvents = 'none';
+    }
+  }
+
   window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      document.getElementById('splash-screen').classList.add('hidden');
-    }, 1150);
-    renderUI();
+    try { renderUI(); } catch (e) {}
+    setTimeout(hideSplashNow, 950);
   });
+
+  window.addEventListener('load', () => setTimeout(hideSplashNow, 1100));
+  setTimeout(hideSplashNow, 2200);
 
   function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(window._toastTimer);
-    window._toastTimer = setTimeout(() => t.classList.remove('show'), 2300);
+    window._toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
   }
 
   function setLang(lang) {
@@ -1315,8 +1485,8 @@
 
   function selectPlatform(plat, btn) {
     state.platform = plat;
-    document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll('.plat-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
     renderUI();
   }
 
@@ -1331,9 +1501,6 @@
       const matching = document.querySelector(`.nav-btn[data-page="${pageId}"]`);
       if (matching) matching.classList.add('active');
     }
-
-    const homeBtn = document.getElementById('btn-home-top');
-    homeBtn.style.display = pageId === 'page-home' ? 'none' : 'inline-flex';
   }
 
   function goHome() {
@@ -1351,26 +1518,26 @@
     if (state.devicesUsed === 0) state.devicesUsed = 1;
     generateAutoKey('FREE');
     renderUI();
-    showToast('⚡ Ключ выдан автоматически! Готов к импорту');
+    showToast('⚡ Ключ выдан автоматически');
   }
 
   function toggleDeviceSlot() {
     state.devicesUsed = (state.devicesUsed + 1) % (state.maxDevices + 1);
     if (state.devicesUsed > 0) state.isActive = true;
     renderUI();
-    showToast(`📱 Устройств подключено: ${state.devicesUsed}/${state.maxDevices}`);
+    showToast(`📱 Устройств: ${state.devicesUsed}/${state.maxDevices}`);
   }
 
   function copyKey() {
     navigator.clipboard?.writeText(state.keyString).catch(() => {});
-    showToast('📋 Ключ скопирован в буфер обмена');
+    showToast('📋 Ключ скопирован');
   }
 
   function importToClient(clientName) {
     const scheme = clientName === 'Happ'
       ? `happ://add/${encodeURIComponent(state.keyString)}`
       : `incy://import?url=${encodeURIComponent(state.keyString)}`;
-    showToast(`🚀 Автоимпорт в ${clientName}: ${scheme.slice(0, 28)}...`);
+    showToast(`🚀 Импорт в ${clientName}: ${scheme.slice(0, 26)}...`);
   }
 
   function openPayModal(title, price) {
@@ -1402,19 +1569,19 @@
     closePayModal();
     switchPage('page-home');
     renderUI();
-    showToast(`✅ Оплачено (${state.paymentMethod})! Ключ выдан автоматически`);
+    showToast(`✅ Оплачено (${state.paymentMethod})! Ключ готов`);
   }
 
   function simulateFriend() {
     state.refCount += 1;
     renderUI();
-    showToast('🎉 Новый друг добавлен в счётчик');
+    showToast('🎉 Друг добавлен');
   }
 
   function copyRef() {
     const txt = document.getElementById('ref-link-text').textContent;
     navigator.clipboard?.writeText(txt).catch(() => {});
-    showToast('📋 Реферальная ссылка скопирована');
+    showToast('📋 Ссылка скопирована');
   }
 
   function shareRef() {
@@ -1432,21 +1599,27 @@
 
   function renderUI() {
     document.getElementById('connect-counter-text').textContent = `Подключить (${state.devicesUsed}/${state.maxDevices})`;
-    document.getElementById('selected-platform-label').textContent = `Устройство: ${state.platform}`;
-    document.getElementById('sub-days-val').textContent = state.planLabel;
-    document.getElementById('status-pill').textContent = state.isActive ? 'Активен • Автоключ' : 'Ожидает активации';
+    document.getElementById('sub-status-tag').textContent = state.planLabel;
     document.getElementById('autokey-badge').textContent = state.isActive ? 'Ключ готов' : 'Автоключ после входа';
     document.getElementById('key-string').textContent = state.keyString;
+    document.getElementById('install-key-code').textContent = state.keyString;
+    document.getElementById('plat-selected-heading').textContent = state.platform;
+    document.getElementById('install-counter-pill').textContent = `${state.devicesUsed}/${state.maxDevices} устр.`;
+    document.getElementById('toggle-slot-label').textContent = `Переключить слот устройства (${state.devicesUsed}/${state.maxDevices})`;
 
     const dot = document.getElementById('device-dot');
     dot.classList.toggle('active', state.isActive || state.devicesUsed > 0);
 
-    document.getElementById('ref-count-val').textContent = String(state.refCount);
-    document.getElementById('ref-count-pill').textContent = `Приглашённые друзья (${state.refCount})`;
-    document.getElementById('profile-dev-num').textContent = `${state.devicesUsed} / ${state.maxDevices}`;
-    document.getElementById('profile-devices-pill').textContent = `${state.devicesUsed}/${state.maxDevices} устр.`;
+    document.getElementById('home-ref-num').textContent = String(state.refCount);
+    document.getElementById('home-ref-sub').textContent = `Приглашено друзей: ${state.refCount}`;
+    document.getElementById('ref-page-num').textContent = String(state.refCount);
+    document.getElementById('ref-pill-counter').textContent = `Приглашённые друзья (${state.refCount})`;
+    document.getElementById('ref-dev-num').textContent = `${state.devicesUsed} / ${state.maxDevices}`;
+
+    document.getElementById('profile-plan-val').textContent = state.planLabel;
+    document.getElementById('profile-dev-val').textContent = `${state.devicesUsed} / ${state.maxDevices}`;
+    document.getElementById('profile-dev-pill').textContent = `${state.devicesUsed}/${state.maxDevices} устр.`;
   }
 </script>
 </body>
 </html>
-
